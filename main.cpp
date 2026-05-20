@@ -94,6 +94,7 @@ int main() {
       showList(numbers);
       break;
     case 3:
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
       saveList(numbers);
       break;
     case 0:
