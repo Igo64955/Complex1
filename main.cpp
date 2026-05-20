@@ -1,7 +1,9 @@
 #include <cmath>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <limits>
+#include <regex>
 #include <string>
 #include <vector>
 
@@ -55,11 +57,21 @@ void saveList(const std::vector<ComplexNumber> &numbers) {
   std::cout << "Dateiname: ";
   std::string filename;
   std::getline(std::cin >> std::ws, filename);
-  if (filename.empty() || filename.find('/') != std::string::npos ||
-      filename.find('\\') != std::string::npos ||
+  static const std::regex allowedFilenamePattern("^[A-Za-z0-9][A-Za-z0-9._-]*$");
+  if (filename.empty() || !std::regex_match(filename, allowedFilenamePattern) ||
       filename.find("..") != std::string::npos) {
     std::cout << "Ungültiger Dateiname. Bitte nur lokalen Dateinamen ohne Pfad angeben.\n";
     return;
+  }
+
+  if (std::filesystem::exists(filename)) {
+    std::cout << "Datei existiert bereits und wird überschrieben. Fortfahren? (j/n): ";
+    std::string answer;
+    std::getline(std::cin, answer);
+    if (answer != "j" && answer != "J") {
+      std::cout << "Speichern abgebrochen.\n";
+      return;
+    }
   }
 
   std::ofstream out(filename);
