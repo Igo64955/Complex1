@@ -55,10 +55,17 @@ void saveList(const std::vector<ComplexNumber> &numbers) {
   std::cout << "Dateiname: ";
   std::string filename;
   std::getline(std::cin >> std::ws, filename);
+  if (filename.empty() || filename.find('/') != std::string::npos ||
+      filename.find('\\') != std::string::npos ||
+      filename.find("..") != std::string::npos) {
+    std::cout << "Ungültiger Dateiname. Bitte nur lokalen Dateinamen ohne Pfad angeben.\n";
+    return;
+  }
 
   std::ofstream out(filename);
   if (!out) {
-    std::cout << "Datei '" << filename << "' konnte nicht geöffnet werden.\n";
+    std::cout << "Datei '" << filename
+              << "' konnte nicht geöffnet werden. Bitte Pfad und Berechtigungen prüfen.\n";
     return;
   }
 
