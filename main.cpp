@@ -1,5 +1,3 @@
-#include <cerrno>
-#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <limits>
@@ -55,12 +53,11 @@ void saveList(const std::vector<ComplexNumber> &numbers) {
 
   std::cout << "Dateiname: ";
   std::string filename;
-  std::cin >> filename;
+  std::getline(std::cin >> std::ws, filename);
 
   std::ofstream out(filename);
   if (!out) {
-    std::cout << "Datei konnte nicht geöffnet werden: " << std::strerror(errno)
-              << '\n';
+    std::cout << "Datei '" << filename << "' konnte nicht geöffnet werden.\n";
     return;
   }
 
