@@ -1,3 +1,4 @@
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <limits>
@@ -41,7 +42,7 @@ void showList(const std::vector<ComplexNumber> &numbers) {
   for (std::size_t i = 0; i < numbers.size(); ++i) {
     const auto &n = numbers[i];
     std::cout << i + 1 << ": " << n.real << (n.imag < 0 ? " - " : " + ")
-              << (n.imag < 0 ? -n.imag : n.imag) << "i\n";
+              << std::abs(n.imag) << "i\n";
   }
 }
 
